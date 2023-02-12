@@ -3,10 +3,10 @@ const today = new Date();
 // 月末だとずれる可能性があるため、1日固定で取得
 var showDate = new Date(today.getFullYear(), today.getMonth(), 1);
 
+
 // 初期表示
 window.onload = function () {
     showProcess(today);
-    console.log(today)
 };
 // 前の月表示
 function prev(){
@@ -33,6 +33,45 @@ function showProcess(date) {
 
     var calendar = createProcess(year, month);
     section_calendar.children["calendar_main"].innerHTML = calendar;
+}
+function calendar_color(theme){
+    if (theme == "dark"){
+        var normal_c="#999"
+        var visited = "#333"
+        var background_c = "#000"
+        var red_c = "rgb(225, 50, 50)"
+        var blue_c = "rgb(110, 110, 255)"
+        var today_c = "#5c212b"
+        var border_c = "#FFF"
+    }else if(theme == "white"){
+        var normal_c="black"
+        var visited = "gray"
+        var background_c = "#FFF"
+        var red_c = "red"
+        var blue_c = "blue"
+        var today_c = "#D65E72"
+        var border_c = "#FFF"
+    }
+    console.log(normal_c)
+    elements = document.querySelectorAll('#calendar_main tr');
+    for(i=0;i<elements.length;i++){
+        elements[i].style.color = normal_c;
+    }
+    elements=document.querySelectorAll("td:first-child");
+    for(i=0;i<elements.length;i++){
+        elements[i].style.color = red_c;
+    }
+    elements=document.querySelectorAll("td:last-child");
+    for(i=0;i<elements.length;i++){
+        elements[i].style.color = blue_c;
+    }
+    elements=document.querySelectorAll("td.disabled");
+    for(i=0;i<elements.length;i++){
+        elements[i].style.color = visited;
+    }
+    elements=document.querySelectorAll("td.today");
+    elements[0].style.backgroundColor = today_c;
+    elements[0].style.color = normal_c;
 }
 
 // カレンダー作成

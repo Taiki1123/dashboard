@@ -1,3 +1,10 @@
+function set2fig(num) {
+  // 桁数が1桁だったら先頭に0を加えて2桁に調整する
+  var ret;
+  if( num < 10 ) { ret = "0" + num; }
+  else { ret = num; }
+  return ret;
+}
 function clock_func(){
     var nowTime = new Date(); //  現在日時を得る
     var nowHour = set2fig(nowTime.getHours()); // 時を抜き出す

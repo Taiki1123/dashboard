@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="./dashboard_dark.css">
+<link rel="stylesheet" href="./dashboard.css">
 <head>
   <title>Dashboard SONAR1123</title>
 </head>
@@ -8,21 +8,28 @@
       <img id = "ynews_img" src="https://s.yimg.jp/c/logo/f/2.0/news_r_34_2x.png">
       <div class="RSS_fead"></div>
     </div>
+    <div>
+      <label class="switch__label">
+          <input type="checkbox" class="switch__input" onchange="theme_check()" checked/>
+          <span class="switch__content"></span>
+          <span class="switch__circle"></span>
+      </label>
+  </div>
   </section>
   <section class = "clock_area">
     <p id ="day">2000/00/00()</p>
     <p id ="clock">00:00</p>
-
   </section>
   <section class="lower">
     <div class="search_bar">
-    <!-- Google  -->
-    <a href ="https://google.com" target="_blank">
-    <img id="google_img" src="https://lh3.googleusercontent.com/COxitqgJr1sJnIDe8-jiKhxDx1FrYbtRHKJ9z_hELisAlapwE9LUPh6fcXIfb5vwpbMl4xl9H9TRFPc5NOO8Sb3VSgIBrfRYvW6cUA"></a>
-    <form method=get action="http://www.google.co.jp/search" target="_blank">
-    <input id="search_form" type=text name=q size=31 maxlength=255 value="">
-    </form>
-    <!-- Google -->
+      <!-- Google  -->
+      <a href ="https://google.com" target="_blank">
+        <img id="google_img" src="https://lh3.googleusercontent.com/COxitqgJr1sJnIDe8-jiKhxDx1FrYbtRHKJ9z_hELisAlapwE9LUPh6fcXIfb5vwpbMl4xl9H9TRFPc5NOO8Sb3VSgIBrfRYvW6cUA">
+      </a>
+      <form method=get action="http://www.google.co.jp/search" target="_blank">
+        <input id="search_form" type=text name=q size=31 maxlength=255 value="">
+      </form>
+      <!-- Google -->
     </div>
   </section>
   <section class = "calendar">
@@ -31,9 +38,9 @@
 
     <!-- ボタンクリックで月移動 -->
     <div id="next-prev-button">
-        <button id="prev" onclick="prev()">＜</button>
-        <button id="now" onclick="now()">・</button>
-        <button id="next" onclick="next()">＞</button>
+        <button class="calendar_button" id="prev" onclick="prev()">＜</button>
+        <button class="calendar_button" id="now" onclick="now()">・</button>
+        <button class="calendar_button" id="next" onclick="next()">＞</button>
     </div>
 
     <!-- カレンダー -->
@@ -51,6 +58,11 @@
     </div>
   </section>
 </body>
+<script src="./theme.js"></script>
+<script src="./clock.js"></script>
+<script src="./weather.js"></script>
+<script src="./rss.js"></script>
+<script src="./calendar.js"></script>
 <script>
   function resize_img(){
     let search_form_h = document.getElementById("search_form").clientHeight;
@@ -71,23 +83,24 @@
     document.getElementById("calendar_main")
   }
   resize_img()
+  resize()
+  theme_change("dark")
   window.onresize = resize;
-  function set2fig(num) {
-   // 桁数が1桁だったら先頭に0を加えて2桁に調整する
-   var ret;
-   if( num < 10 ) { ret = "0" + num; }
-   else { ret = num; }
-   return ret;
-  }
-
   for (let i = 0; i < 6; i++) {
     const el = document.querySelector('.weather').cloneNode(true);
     document.querySelector('.weatherForecast').appendChild(el);
   }
+  function theme_check(){
+    if (document.getElementsByClassName("switch__input")[0].checked==false){
+      var theme = "white"; 
+    }else{
+      var theme = "dark";
+    }
+    theme_change(theme)
+    calendar_color(theme)
+  }
+  
+  // wether_fetch()
 </script>
-<script src="./clock.js"></script>
-<script src="./weather.js"></script>
-<script src="./rss.js"></script>
-<script src="./calendar.js"></script>
-<script src="./theme.js"></script>
+
 

@@ -130,58 +130,81 @@ const timeDefinesList = new Array();
 const weatherCodeList = new Array();
 const tempsMinList = new Array();
 const tempsMaxList = new Array();
+function wether_fetch(){
+  fetch(url)
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (weather) {
+      document
+        .getElementById("location")
+        .prepend(
+          `${weather[1].publishingOffice}: ${weather[1].timeSeries[0].areas[0].area.name} `
+        );
+      const isTodaysData = weather[0].timeSeries[2].timeDefines.length === 4;
+      const weatherCodes = weather[0].timeSeries[0].areas[0].weatherCodes;
+      const timeDefines = weather[0].timeSeries[0].timeDefines;
+      const temps = weather[0].timeSeries[2].areas[0].temps;
+      weatherCodeList.push(weatherCodes[0], weatherCodes[1]);
+      timeDefinesList.push(timeDefines[0], timeDefines[1]);
+      if (isTodaysData) {
+        tempsMinList.push(temps[0] === temps[1] ? "--" : temps[0], temps[2]);
+        tempsMaxList.push(temps[1], temps[3]);
+      } else {
+        tempsMinList.push("--", temps[0]);
+        tempsMaxList.push("--", temps[1]);
+      }
 
-fetch(url)
-  .then(function (response) {
-    return response.json();
-  })
-  .then(function (weather) {
-    document
-      .getElementById("location")
-      .prepend(
-        `${weather[1].publishingOffice}: ${weather[1].timeSeries[0].areas[0].area.name} `
-      );
-    const isTodaysData = weather[0].timeSeries[2].timeDefines.length === 4;
-    const weatherCodes = weather[0].timeSeries[0].areas[0].weatherCodes;
-    const timeDefines = weather[0].timeSeries[0].timeDefines;
-    const temps = weather[0].timeSeries[2].areas[0].temps;
-    weatherCodeList.push(weatherCodes[0], weatherCodes[1]);
-    timeDefinesList.push(timeDefines[0], timeDefines[1]);
-    if (isTodaysData) {
-      tempsMinList.push(temps[0] === temps[1] ? "--" : temps[0], temps[2]);
-      tempsMaxList.push(temps[1], temps[3]);
-    } else {
-      tempsMinList.push("--", temps[0]);
-      tempsMaxList.push("--", temps[1]);
-    }
+      const startCount =
+        weather[1].timeSeries[0].timeDefines.indexOf(timeDefines[1]) + 1;
+      for (let i = startCount; i < startCount + 5; i++) {
+        weatherCodeList.push(weather[1].timeSeries[0].areas[0].weatherCodes[i]);
+        timeDefinesList.push(weather[1].timeSeries[0].timeDefines[i]);
+        tempsMinList.push(weather[1].timeSeries[1].areas[0].tempsMin[i]);
+        tempsMaxList.push(weather[1].timeSeries[1].areas[0].tempsMax[i]);
+      }
 
-    const startCount =
-      weather[1].timeSeries[0].timeDefines.indexOf(timeDefines[1]) + 1;
-    for (let i = startCount; i < startCount + 5; i++) {
-      weatherCodeList.push(weather[1].timeSeries[0].areas[0].weatherCodes[i]);
-      timeDefinesList.push(weather[1].timeSeries[0].timeDefines[i]);
-      tempsMinList.push(weather[1].timeSeries[1].areas[0].tempsMin[i]);
-      tempsMaxList.push(weather[1].timeSeries[1].areas[0].tempsMax[i]);
-    }
+      const date = document.getElementsByClassName("date");
+      const weatherImg = document.getElementsByClassName("weatherImg");
+      const weatherTelop = document.getElementsByClassName("weatherTelop");
+      const tempMin = document.getElementsByClassName("tempMin");
+      const tempMax = document.getElementsByClassName("tempMax");
 
-    const date = document.getElementsByClassName("date");
-    const weatherImg = document.getElementsByClassName("weatherImg");
-    const weatherTelop = document.getElementsByClassName("weatherTelop");
-    const tempMin = document.getElementsByClassName("tempMin");
-    const tempMax = document.getElementsByClassName("tempMax");
-
-    weatherCodeList.forEach(function (el, i) {
-      let dt = new Date(timeDefinesList[i]);
-      let weekdayCount = dt.getDay();
-      if (weekdayCount === 0) date[i].style.color = "rgb(180, 0, 0)";
-      if (weekdayCount === 6) date[i].style.color = "rgb(110, 110, 255)";
-      var m = ("00" + (dt.getMonth() + 1)).slice(-2);
-      var d = ("00" + dt.getDate()).slice(-2);
-      date[i].textContent = `${m}/${d}(${dayList[weekdayCount]})`;
-      var isNight = Number(i === 0 && !isTodaysData)
-      weatherImg[i].src = "https://www.jma.go.jp/bosai/forecast/img/" + weatherCode[el][isNight];
-      weatherTelop[i].textContent = weatherCode[el][2];
-      tempMin[i].textContent = tempsMinList[i] + "℃";
-      tempMax[i].textContent = tempsMaxList[i] + "℃";
+      weatherCodeList.forEach(function (el, i) {
+        let dt = new Date(timeDefinesList[i]);
+        let weekdayCount = dt.getDay();
+        var red_c = "rgb(225, 50, 50)"
+        var blue_c = "rgb(110, 110, 255)"
+        if (weekdayCount === 0) date[i].style.color = red_c;
+        if (weekdayCount === 6) date[i].style.color = blue_c;
+        var m = ("00" + (dt.getMonth() + 1)).slice(-2);
+        var d = ("00" + dt.getDate()).slice(-2);
+        date[i].textContent = `${m}/${d}(${dayList[weekdayCount]})`;
+        var isNight = Number(i === 0 && !isTodaysData)
+        weatherImg[i].src = "https://www.jma.go.jp/bosai/forecast/img/" + weatherCode[el][isNight];
+        weatherTelop[i].textContent = weatherCode[el][2];
+        tempMin[i].textContent = tempsMinList[i] + "℃";
+        tempMax[i].textContent = tempsMaxList[i] + "℃";
+      });
     });
-  });
+}
+wether_fetch()
+// function wether_color(theme){
+//   if (theme == "dark"){
+//     var normal_c="#999"
+//     var visited = "#333"
+//     var background_c = "#000"
+//     var red_c = "rgb(225, 50, 50)"
+//     var blue_c = "rgb(110, 110, 255)"
+//     var today_c = "#5c212b"
+//     var border_c = "#FFF"
+//   }else if(theme == "white"){
+//     var normal_c="black"
+//     var visited = "gray"
+//     var background_c = "#FFF"
+//     var red_c = "red"
+//     var blue_c = "blue"
+//     var today_c = "#D65E72"
+//     var border_c = "#FFF"
+//   }
+// }
