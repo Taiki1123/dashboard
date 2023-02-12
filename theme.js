@@ -8,6 +8,7 @@ function theme_change(theme){
     var blue_c = "rgb(110, 110, 255)"
     var today_c = "#5c212b"
     var border_c = "#FFF"
+    var button_c = "gray"
   }else if(theme == "white"){
     var normal_c="black"
     var visited = "gray"
@@ -16,6 +17,7 @@ function theme_change(theme){
     var blue_c = "blue"
     var today_c = "#D65E72"
     var border_c = "#FFF"
+    var button_c = "#DDD"
   }
 
   document.getElementsByTagName("body")[0].style.backgroundColor = background_c
@@ -42,7 +44,7 @@ function theme_change(theme){
   }
   elements = document.getElementsByClassName("calendar_button")
   for(i=0;i<elements.length;i++){
-    elements[i].style.backgroundColor = visited;
+    elements[i].style.backgroundColor = button_c;
   }
 }
 

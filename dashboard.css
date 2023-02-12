@@ -133,6 +133,7 @@ input#search_form{
 }
   .calendar_button{
     background-color: gray;
+    border-width: 0;
   }
 
   .calendar > h1{

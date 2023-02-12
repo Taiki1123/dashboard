@@ -52,7 +52,6 @@ function calendar_color(theme){
         var today_c = "#D65E72"
         var border_c = "#FFF"
     }
-    console.log(normal_c)
     elements = document.querySelectorAll('#calendar_main tr');
     for(i=0;i<elements.length;i++){
         elements[i].style.color = normal_c;
