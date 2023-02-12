@@ -119,18 +119,26 @@ const weatherCode = {
   450: ["400.svg", "400.svg", "雪で雷を伴う"],
 };
 
-// ここのXXXXXX.jsonを変更する
-// const url = "https://www.jma.go.jp/bosai/forecast/data/forecast/350000.json";//山口
-const url = "https://www.jma.go.jp/bosai/forecast/data/forecast/130000.json";//東京
+const code_api=async()=>{
+  const code_url="area.json"
+  return await (await fetch(code_url)).json().then((code_response) => code_response);
+}
 
-
+const point = "山口県"
 const dayList = ["日", "月", "火", "水", "木", "金", "土"];
-
 const timeDefinesList = new Array();
 const weatherCodeList = new Array();
 const tempsMinList = new Array();
 const tempsMaxList = new Array();
-function wether_fetch(){
+
+async function wether_fetch(){
+  const CodeJson = await code_api();
+    for(var i in CodeJson["offices"]){
+      if (CodeJson["offices"][i]['name'] == point){
+        var code = i
+      }
+    }
+  const url = "https://www.jma.go.jp/bosai/forecast/data/forecast/"+code+".json";
   fetch(url)
     .then(function (response) {
       return response.json();
@@ -185,10 +193,12 @@ function wether_fetch(){
         weatherTelop[i].textContent = weatherCode[el][2];
         tempMin[i].textContent = tempsMinList[i] + "℃";
         tempMax[i].textContent = tempsMaxList[i] + "℃";
+      
       });
     });
 }
 wether_fetch()
+
 // function wether_color(theme){
 //   if (theme == "dark"){
 //     var normal_c="#999"
