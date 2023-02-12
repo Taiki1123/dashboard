@@ -1,0 +1,120 @@
+a:visited {color:#333;} /*訪問済みのリンクの色*/
+a:link {color:#999;} /*訪問済みのリンクの色*/
+a{
+  display: inline;
+}
+body{
+  background-color: #000;
+  color: #999;
+}
+.upper{
+  height: 40%;
+}
+.RSS_fead{
+  width: 16em
+}
+#day{
+  font-size: 4em;
+}
+#clock{
+  font-size: 8em;
+}
+.clock_area
+ {
+
+  width: 80%;
+  margin: 0 auto;
+  max-width: 500px;
+}
+.clock_area p {
+  text-align: center;
+  margin: 0;
+}
+
+
+#google_img{
+  padding: 0 8px 0 0 ;
+}
+input#search_form{
+  font-size: 1.5em;
+  border:none;
+  border-radius:4px;
+  box-shadow: none;
+  padding: 2px 8px;
+  background-color: #b4b4b4;
+}
+.search_bar{
+  display:flex;
+  justify-content: center;
+}
+.calendar {
+  font-size: 1.5em;
+  text-align: center;
+  position: fixed;
+  bottom: 25;
+  right: 25;
+  height: 420px;
+  /* width: 100%; */
+}
+  .calendar > h1{
+    text-align: center;
+    margin: 0;
+  }
+  #calendar_main > table{
+    font-size: 1em;
+    border-collapse: separate;
+    text-align: center;
+  }
+  #calendar_main > th,td{
+    padding: 5px;
+  }
+  #calendar_main > * > * > * > td:first-child {
+    color: rgb(180, 0, 0);
+  }
+  #calendar_main > * > * > * > td:last-child {
+    color: rgb(110, 110, 255);
+  }
+  #calendar_main > * > * > * > td.disabled {
+    color: #333;
+  }
+  #calendar_main > * > * > * > td.today {
+    background-color: #5c212b;
+    color: #999;
+  }
+
+.weather_comp {
+    position: fixed;
+    bottom: 25;
+    left: 25;
+}
+.weatherForecast {
+    width: 840px;
+    height: 120px;
+    display: flex;
+    text-align: center;
+    border: 1px solid #ffffff;
+  }
+
+  .weather {
+    width: calc(100% / 7);
+    height: 100%;
+    box-sizing: border-box;
+    border: 1px solid #ffffff;
+  }
+  
+  .weather > div {
+    height: 20%;
+    font-size: 14px;
+  }
+  
+  .weatherImg {
+    height: 42%;
+  }
+  
+  .tempMin {
+    color: rgb(110, 110, 255);
+  }
+  
+  .tempMax {
+    color: rgb(180, 0, 0);
+  }
