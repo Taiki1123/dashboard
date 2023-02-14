@@ -118,13 +118,35 @@ const weatherCode = {
   427: ["400.svg", "400.svg", "雪一時みぞれ"],
   450: ["400.svg", "400.svg", "雪で雷を伴う"],
 };
-
+var Point_pref = "";
 const code_api=async()=>{
   const code_url="area.json"
   return await (await fetch(code_url)).json().then((code_response) => code_response);
 }
+function success_geo(position){
+  var point_data = position.coords;
+  var lat = point_data.latitude;
+  var lng = point_data.longitude;
+  console.log(lat,lng)
+  var geocoder = new google.maps.Geocoder();
+  latlng = new google.maps.LatLng(lat, lng);
+  geocoder.geocode({'latLng': latlng}, function(results, status) {
+  
+  if (status == google.maps.GeocoderStatus.OK) {
+    // for i in results[0].formatted_address{
+    // for(i=0;i<results[0].formatted_address.length;i++){
+    for(i=13;i<16;i++){
+      // Point_pref.push(i)
+      Point_pref=Point_pref + results[0].formatted_address[i]
+    }
+    console.log(Point_pref);
+  }
+  else {
+    alert("エラー" + status);
+  }
+  });
+}
 
-const point = "山口県"
 const dayList = ["日", "月", "火", "水", "木", "金", "土"];
 const timeDefinesList = new Array();
 const weatherCodeList = new Array();
@@ -132,9 +154,10 @@ const tempsMinList = new Array();
 const tempsMaxList = new Array();
 
 async function wether_fetch(){
+
   const CodeJson = await code_api();
     for(var i in CodeJson["offices"]){
-      if (CodeJson["offices"][i]['name'] == point){
+      if (CodeJson["offices"][i]['name'] == "山口県"){
         var code = i
       }
     }
@@ -197,6 +220,9 @@ async function wether_fetch(){
       });
     });
 }
+
+navigator.geolocation.watchPosition(success_geo);
+console.log(Point_pref);
 wether_fetch()
 
 // function wether_color(theme){
