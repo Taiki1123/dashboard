@@ -132,6 +132,7 @@ const tempsMinList = new Array();
 const tempsMaxList = new Array();
 
 async function wether_fetch(){
+
   const CodeJson = await code_api();
     for(var i in CodeJson["offices"]){
       if (CodeJson["offices"][i]['name'] == point){
@@ -139,15 +140,17 @@ async function wether_fetch(){
       }
     }
   const url = "https://www.jma.go.jp/bosai/forecast/data/forecast/"+code+".json";
+  document.getElementById("location").removeChild(document.getElementById("location").firstElementChild)
+  var new_element = document.createElement("p")
   fetch(url)
     .then(function (response) {
       return response.json();
     })
     .then(function (weather) {
-      document
-        .getElementById("location")
-        .prepend(
-          `${weather[1].publishingOffice}: ${weather[1].timeSeries[0].areas[0].area.name} `
+      new_element.textContent=  `${weather[1].publishingOffice}: ${weather[1].timeSeries[0].areas[0].area.name} `
+      document.getElementById("location")
+        .appendChild(
+          new_element
         );
       const isTodaysData = weather[0].timeSeries[2].timeDefines.length === 4;
       const weatherCodes = weather[0].timeSeries[0].areas[0].weatherCodes;
@@ -193,11 +196,15 @@ async function wether_fetch(){
         weatherTelop[i].textContent = weatherCode[el][2];
         tempMin[i].textContent = tempsMinList[i] + "℃";
         tempMax[i].textContent = tempsMaxList[i] + "℃";
-      
       });
+      // background_feader_getWeather(weatherCodeList[0])
     });
+    
 }
 wether_fetch()
+// function weather_reload(){
+  
+// }
 
 // function wether_color(theme){
 //   if (theme == "dark"){

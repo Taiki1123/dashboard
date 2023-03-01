@@ -22,3 +22,4 @@ function clock_func(){
   }
   clock_func()
   setInterval('clock_func()',10000);
+  setInterval("wether_fetch()",60000)

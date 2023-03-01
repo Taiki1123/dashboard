@@ -10,6 +10,11 @@ body{
 .upper{
   height: 40%;
 }
+.livecam{
+  position: fixed;
+  top: 75;
+  right: 25;
+}
 .RSS_fead{
   width: 16em
 }
